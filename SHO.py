@@ -94,8 +94,15 @@ plt.xlabel("t [s]")
 plt.ylabel("Energy [J]")
 plt.title("Energy as a function of time")
 plt.legend()
-  
 
+# Numeric Summary
+print("Parameters: m=%.3f kg, k=%.3f N/m, omega=%.3f rad/s, dt=%.4f s, steps=%d" % (m, k, omega, dt, n_steps))
+print("Initial energy: %.6f J" % energy(x0, v0))
+print("Final energy (Explicit Euler):  %.6f J" % E_e[-1])
+print("Final energy (Symplectic Euler): %.6f J" % E_s[-1])
+
+if __name__ == "__main__":
+  plt.show()
 
 
 
