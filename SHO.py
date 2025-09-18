@@ -38,6 +38,27 @@ def explicit_euler(x0, v0, dt, n):
   x = np.empty(n+1)
   v = np.empty(n+1)
   x[0], v[0] = x0, v0
+  for i in range(n):
+    x[i+1] = x[i] + dt * v[i]
+    a = -(k/m) * x[i]
+    v[i+1] = v[i] + dt * a
+  return x,v
+
+def symplectic_euler(x0, v0, dt, n):
+  """Symplectic (semi-implicit) Euler: 
+      v_{n+1} = v_n + dt * ( - (k/m) * x_n)
+      x_{n+1} = x_n + dt * v_{n+1}
+  """
+  x = np.empty(n+1)
+  v = np.empty(n+1)
+  x[0], v[0] = x0, v0
+  for i in range(n):
+    a = -(k/m) * x[i]
+    v[i+1] = v[i] + dt * a
+    x[i+1] = x[i] + dt * v[i+1]
+  return x,v
+
+def energy(x, v):
   
   
 
