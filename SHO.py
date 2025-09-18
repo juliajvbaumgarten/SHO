@@ -59,6 +59,22 @@ def symplectic_euler(x0, v0, dt, n):
   return x,v
 
 def energy(x, v):
+  """Total energy E = T + V = 1/2 m v^2 + 1/2 k x^2"""
+  return 0.5 * m * v * v + 0.5 * k * x * x
+
+# Time vector
+t = np.linspace(0.0, T, n_steps+1)
+
+# Run Methods
+x_e, v_e = explicit_euler(x0, v0, dt, n_steps)
+x_s, v_s = symplectic_euler(x0, v0, dt, n_steps)
+
+# Energies
+E_e = energy(x_e, v_e)
+E_s = energy(x_s, v_s)
+
+# -------------- Plots --------------------------------
+
   
   
 
