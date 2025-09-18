@@ -31,4 +31,20 @@ n_steps = int(T/dt)
 x0 = 1.0
 v0 = 0.5
 
+def explicit_euler(x0, v0, dt, n):
+  """Explicit Euler: x_{n+1} = x_n + dt * v_n
+      v_{n+1} = v_n + dt * ( - (k/m) * x_n)
+  """
+  x = np.empty(n+1)
+  v = np.empty(n+1)
+  x[0], v[0] = x0, v0
+  
+  
+
+
+
+
+
+
+
 
