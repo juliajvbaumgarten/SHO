@@ -75,7 +75,25 @@ E_s = energy(x_s, v_s)
 
 # -------------- Plots --------------------------------
 
-  
+# Displacement vs time
+plt.figure()
+plt.plot(t, x_e, label="Explicit Euler")
+plt.plot(t, x_s, label="Symplectic Euler")
+plt.xlabel("t [s]")
+plt.ylabel("x(t) [m]")
+plt.title("Spring Oscillator Displacement")
+plt.legend()
+
+
+
+# Energy vs time
+plt.figure()
+plt.plot(t, E_e, label="Explicit Euler Energy")
+plt.plot(t, E_s, label="Symplectic Euler Energy")
+plt.xlabel("t [s]")
+plt.ylabel("Energy [J]")
+plt.title("Energy as a function of time")
+plt.legend()
   
 
 
