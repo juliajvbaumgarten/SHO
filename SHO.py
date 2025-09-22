@@ -32,6 +32,7 @@ n_steps = int(T/dt)
 x0 = 1.0
 v0 = 0.5
 
+# ------------------------------------
 def acceleration(x):
   return -(k/m) * x
 
@@ -156,7 +157,7 @@ def compare_integrators(x0,v0, dt, T):
       "analytic": (x_ex, v_ex, E_ex),
   }
 
-# -------------- Plots --------------------------------
+# -------------- Old Plots --------------------------------
 
 # Time vector
 t = np.linspace(0.0, T, n_steps+1)
@@ -200,9 +201,84 @@ print("Final energy (Explicit Euler):  %.6f J" % E_e[-1])
 print("Final energy (Symplectic Euler): %.6f J" % E_s[-1])
 print("Final energy (RK2 (midpoint)): %.6f J" % E_r[-1])
 
+
 if __name__ == "__main__":
   results = compare_integrators(x0, v0, dt, T)
   plt.show()
 
+# -------------- For question: Did not want to mess up anything that's working --------------------------------
+
+import pandas as pd
+
+final_T = 10.0
+dts = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
+
+errors_e, errors_s, errors_r = [], [], []
+
+for dt in dts:
+    n_steps = int(final_T/dt)
+    t = np.linspace(0, final_T, n_steps+1)
+    x_exact, v_exact = exact_solution(t, x0, v0)
+
+    x_e, v_e = explicit_euler(x0, v0, dt, n_steps)
+    x_s, v_s = symplectic_euler(x0, v0, dt, n_steps)
+    x_r, v_r = rk2_midpoint(x0, v0, dt, n_steps)
+
+    errors_e.append(abs(x_e[-1] - x_exact[-1]))
+    errors_s.append(abs(x_s[-1] - x_exact[-1]))
+    errors_r.append(abs(x_r[-1] - x_exact[-1]))
+
+# Table
+df = pd.DataFrame({
+    "dt": dts,
+    "Explicit Euler": errors_e,
+    "Symplectic Euler": errors_s,
+    "RK2 Midpoint": errors_r
+})
+print("\nConvergence study (final error at T=10s):")
+print(df)
+
+# Log-log plot
+plt.figure()
+plt.loglog(dts, errors_e, "o-", label="Explicit Euler")
+plt.loglog(dts, errors_s, "o-", label="Symplectic Euler")
+plt.loglog(dts, errors_r, "o-", label="RK2 (Midpoint)")
+plt.xlabel("dt [s]")
+plt.ylabel("Final |x - x_exact| at T=10s")
+plt.title("Convergence: final error vs dt")
+plt.legend()
+plt.show()
+
+# ---------------------------------------------------------------
+
+# Long-term behavior
+T_long = 400.0
+dt_long = 0.02
+nL = int(T_long/dt_long)
+tL = np.linspace(0, T_long, nL+1)
+
+# Analytic
+x_ref, v_ref = exact_solution(tL, x0, v0)
+E_ref = energy(x_ref, v_ref)
+
+xe, ve = explicit_euler(x0, v0, dt_long, nL)
+xs, vs = symplectic_euler(x0, v0, dt_long, nL)
+xr, vr = rk2_midpoint(x0, v0, dt_long, nL)
+
+Ee = energy(xe, ve)
+Es = energy(xs, vs)
+Er = energy(xr, vr)
+
+# Plot
+plt.figure()
+plt.plot(tL, Ee, label="Explicit Euler")
+plt.plot(tL, Es, label="Symplectic Euler")
+plt.plot(tL, Er, label="RK2 (Midpoint)")
+plt.plot(tL, E_ref, "--", label="Exact Energy")
+plt.xlabel("t [s]")
+plt.ylabel("Energy [J]")
+plt.title("Energy vs time (T=400s, dt=0.02)")
+plt.legend()
+plt.show()
 
 
