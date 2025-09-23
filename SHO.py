@@ -142,7 +142,7 @@ def compare_integrators(x0,v0, dt, T):
   plt.plot(t, x_ex, linestyle="--", label="Analytic")
   plt.xlabel("t [s]")
   plt.ylabel("x(t) [m]")
-  plt.title("SHO: displacement vs time")
+  plt.title("Spring Oscillator Displacement")
   plt.legend()
 
   plt.figure()
@@ -153,7 +153,7 @@ def compare_integrators(x0,v0, dt, T):
   plt.plot(t, E_ex, linestyle="--", label="Analytic")
   plt.xlabel("t [s]")
   plt.ylabel("Energy [J]")
-  plt.title("Energy vs time")
+  plt.title("Energy as a function of time")
   plt.legend()
   
   return {
@@ -284,7 +284,7 @@ plt.plot(tL, Er, label="RK2 (Midpoint)")
 plt.plot(tL, E_ref, "--", label="Exact Energy")
 plt.xlabel("t [s]")
 plt.ylabel("Energy [J]")
-plt.title("Energy vs time (T=400s, dt=0.02)")
+plt.title("Energy as a function of time (T=400s, dt=0.02)")
 plt.legend()
 plt.show()
 
