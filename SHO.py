@@ -109,6 +109,12 @@ def compare_integrators(x0,v0, dt, T):
   E_s = energy(x_s, v_s)
   E_r = energy(x_r, v_r)
 
+  # Modified Hamiltonian
+  def modified_energy_symplectic(x, v, dt):
+    return 0.5*m*(v**2) + 0.5*k*(x**2) - 0.5*k*dt*(x*v)
+
+  Htilde_s = modified_energy_symplectic(x_s, v_s, dt)
+
   # Errors
   err_e_final = abs(x_e[-1] - x_ex[-1])
   err_s_final = abs(x_s[-1] - x_ex[-1])
@@ -143,6 +149,7 @@ def compare_integrators(x0,v0, dt, T):
   plt.plot(t, E_e, label="Explicit Euler")
   plt.plot(t, E_s, label="Symplectic Euler")
   plt.plot(t, E_r, label="RK2 (midpoint)")
+  plt.plot(t, Htilde_s, label="Symplectic Euler (modified H~)")
   plt.plot(t, E_ex, linestyle="--", label="Analytic")
   plt.xlabel("t [s]")
   plt.ylabel("Energy [J]")
